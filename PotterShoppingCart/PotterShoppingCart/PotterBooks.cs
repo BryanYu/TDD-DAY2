@@ -10,6 +10,7 @@ namespace PotterShoppingCart
         private decimal _defaultDiscount = 1.0M;
         private decimal _twoDifferenceBooksDiscount = 0.95M;
         private decimal _threeDifferenceBooksDiscount = 0.90M;
+        private decimal _fourDifferenceBooksDiscount = 0.80M;
 
         public PotterBooks()
         {
@@ -44,13 +45,18 @@ namespace PotterShoppingCart
         private decimal GetDiscount(IEnumerable<Book> books)
         {
             var distinctBooks = books.Select(item => item.Id).Distinct();
-            if (distinctBooks.Count() == 2)
+            var count = distinctBooks.Count();
+            if (count == 2)
             {
                 return _twoDifferenceBooksDiscount;
             }
-            else if (distinctBooks.Count() == 3)
+            else if (count == 3)
             {
                 return _threeDifferenceBooksDiscount;
+            }
+            else if (count == 4)
+            {
+                return _fourDifferenceBooksDiscount;
             }
             return _defaultDiscount;
         }
