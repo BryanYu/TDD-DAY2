@@ -46,5 +46,20 @@ namespace PotterShoppingCart.Tests
             ///Assert
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void Test_When_Buy_3_Difference_is_10_percent_discount()
+        {
+            ///Arrange
+            var target = new PotterBooks();
+            var books = _dummyBooks.Take(5);
+            decimal expected = (100 + 100 + 100) * 0.90M;
+
+            ///Act
+            decimal actual = target.Calculate(books);
+
+            ///Assert
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
