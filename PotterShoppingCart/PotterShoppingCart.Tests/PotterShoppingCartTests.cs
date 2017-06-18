@@ -91,5 +91,23 @@ namespace PotterShoppingCart.Tests
             ///Assert
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void Test_When_Buy_4_But_3_Are_Difference_The_One_Are_Original_Price()
+        {
+            ///Arrange
+            var target = new PotterBooks();
+            var books = _dummyBooks.Take(3).ToList();
+            var firstBook = _dummyBooks.FirstOrDefault(item => item.Id == 3);
+            books.Add(firstBook);
+
+            decimal expected = ((100 + 100 + 100) * 0.90M) + 100;
+
+            ///Act
+            decimal actual = target.Calculate(books);
+
+            ///Assert
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
