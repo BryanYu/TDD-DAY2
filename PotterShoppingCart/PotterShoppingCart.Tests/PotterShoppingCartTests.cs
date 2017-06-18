@@ -52,7 +52,7 @@ namespace PotterShoppingCart.Tests
         {
             ///Arrange
             var target = new PotterBooks();
-            var books = _dummyBooks.Take(5);
+            var books = _dummyBooks.Take(3);
             decimal expected = (100 + 100 + 100) * 0.90M;
 
             ///Act
