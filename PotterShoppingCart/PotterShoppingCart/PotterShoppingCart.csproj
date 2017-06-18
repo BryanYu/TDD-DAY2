@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Book.cs" />
+    <Compile Include="Model\DiscountTypeEnum.cs" />
     <Compile Include="PotterBooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
