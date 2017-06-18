@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PotterShoppingCart.Model;
 
 namespace PotterShoppingCart
 {
     public class PotterBooks
     {
+        private decimal _twoDifferenceBooksDiscount = 0.95M;
+
         public PotterBooks()
         {
         }
@@ -25,7 +28,22 @@ namespace PotterShoppingCart
 
         public decimal Calculate(IEnumerable<Book> books)
         {
-            throw new NotImplementedException();
+            var result = GetPrice(books);
+            return result;
+        }
+
+        private decimal GetPrice(IEnumerable<Book> books)
+        {
+            var result = 0.0M;
+            if (books.Count() == 2)
+            {
+                decimal totalPrice = books
+                .Select(item => new { Id = item.Id, Price = item.Price })
+                .Distinct()
+                .Sum(item2 => item2.Price);
+                result = totalPrice * _twoDifferenceBooksDiscount;
+            }
+            return result;
         }
     }
 }
