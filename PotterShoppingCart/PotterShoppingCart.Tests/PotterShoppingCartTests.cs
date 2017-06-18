@@ -14,10 +14,10 @@ namespace PotterShoppingCart.Tests
         private List<Book> _dummyBooks = new List<Book>
         {
             new Book { Name = "哈利波特第一集",Price = 100 },
-            new Book { Name = "哈利波特第一集",Price = 100 },
-            new Book { Name = "哈利波特第一集",Price = 100 },
-            new Book { Name = "哈利波特第一集",Price = 100 },
-            new Book { Name = "哈利波特第一集",Price = 100 }
+            new Book { Name = "哈利波特第二集",Price = 100 },
+            new Book { Name = "哈利波特第三集",Price = 100 },
+            new Book { Name = "哈利波特第四集",Price = 100 },
+            new Book { Name = "哈利波特第五集",Price = 100 }
         };
 
         [TestMethod]
@@ -28,8 +28,9 @@ namespace PotterShoppingCart.Tests
             var expected = _dummyBooks;
             ///Act
             List<Book> actual = target.Get();
+
             ///Assert
-            CollectionAssert.AreEquivalent(expected, actual);
+            expected.ToExpectedObject().ShouldEqual(actual);
         }
     }
 }

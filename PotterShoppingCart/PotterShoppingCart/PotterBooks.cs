@@ -12,7 +12,15 @@ namespace PotterShoppingCart
 
         public List<Book> Get()
         {
-            throw new NotImplementedException();
+            var result = new List<Book>
+            {
+                new Book { Name = "哈利波特第一集",Price = 100 },
+                new Book { Name = "哈利波特第二集",Price = 100 },
+                new Book { Name = "哈利波特第三集",Price = 100 },
+                new Book { Name = "哈利波特第四集",Price = 100 },
+                new Book { Name = "哈利波特第五集",Price = 100 }
+            };
+            return result;
         }
     }
 }
