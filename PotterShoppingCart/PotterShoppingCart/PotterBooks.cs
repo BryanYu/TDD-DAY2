@@ -11,6 +11,7 @@ namespace PotterShoppingCart
         private decimal _twoDifferenceBooksDiscount = 0.95M;
         private decimal _threeDifferenceBooksDiscount = 0.90M;
         private decimal _fourDifferenceBooksDiscount = 0.80M;
+        private decimal _fiveDifferenceBooksDiscount = 0.75M;
 
         public PotterBooks()
         {
@@ -57,6 +58,10 @@ namespace PotterShoppingCart
             else if (count == 4)
             {
                 return _fourDifferenceBooksDiscount;
+            }
+            else if (count == 5)
+            {
+                return _fiveDifferenceBooksDiscount;
             }
             return _defaultDiscount;
         }
