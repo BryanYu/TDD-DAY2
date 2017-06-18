@@ -13,11 +13,11 @@ namespace PotterShoppingCart.Tests
     {
         private List<Book> _dummyBooks = new List<Book>
         {
-            new Book { Name = "哈利波特第一集",Price = 100 },
-            new Book { Name = "哈利波特第二集",Price = 100 },
-            new Book { Name = "哈利波特第三集",Price = 100 },
-            new Book { Name = "哈利波特第四集",Price = 100 },
-            new Book { Name = "哈利波特第五集",Price = 100 }
+            new Book {Id = 1 ,Name = "哈利波特第一集",Price = 100 },
+            new Book {Id = 2 ,Name = "哈利波特第二集",Price = 100 },
+            new Book {Id = 3 ,Name = "哈利波特第三集",Price = 100 },
+            new Book {Id = 4 ,Name = "哈利波特第四集",Price = 100 },
+            new Book {Id = 5 ,Name = "哈利波特第五集",Price = 100 }
         };
 
         [TestMethod]
@@ -31,6 +31,20 @@ namespace PotterShoppingCart.Tests
 
             ///Assert
             expected.ToExpectedObject().ShouldEqual(actual);
+        }
+
+        [TestMethod]
+        public void Test_When_Buy_2_Difference_is_5_percent_discount()
+        {
+            ///Arrange
+            var target = new PotterBooks();
+            var books = _dummyBooks.Take(2);
+            decimal expected = (100 + 100) * 0.95M;
+            ///Act
+            decimal actual = target.Calculate(books);
+
+            ///Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }
