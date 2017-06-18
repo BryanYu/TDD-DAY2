@@ -16,13 +16,9 @@
 5. 介紹重構的技巧，並練習計算物流運費的案例，將Legacy Code一步步重構成好讀好測試的程式碼 
 
 (自我練習部分)
-1. 練習MVC Controller 的Unit Test，關鍵在於Controller回傳的是ActionResult，是MVC Result的基底類別，
-   需要以自己的使用情境去轉型成不同的ActionResult，再來做Assert。
-2. MessageHandler的Unit Test，測試是驗證是否為聖誕節，如果是就可以呼叫，不是就回傳Bad Request，
-   範例中使用FakeHandler，成功呼叫時會使用FakeHandler來模擬回傳訊息，失敗的呼叫就直接Reject了，並不會呼叫到FakeHandler
-3. 練習了IsolatedByInheritanceAndOverride範例，我的體驗是，這個技巧是利用virtual的特性，並使用子類別來繼承父類別，
-   由子類別來override virtual method，可以做到由繼承的子類別來決定父類別的實作，雖然父類別的method有做一些修正，但不影響現有邏輯。
-   這個範例子類別 override virtual method是用來設定orders的來源物件，切換至測試案例內的dummy Orders，以及BookDao的實作，由NSub模擬的Mock物件。
+1. 練習MVC Controller 的Unit Test，關鍵在於Controller回傳的是ActionResult，是MVC Result的基底類別，需要以自己的使用情境去轉型成不同的ActionResult，再來做Assert。
+2. MessageHandler的Unit Test，測試是驗證是否為聖誕節，如果是就可以呼叫，不是就回傳Bad Request，範例中使用FakeHandler，成功呼叫時會使用FakeHandler來模擬回傳訊息，失敗的呼叫就直接Reject了，並不會呼叫到FakeHandler
+3. 練習了IsolatedByInheritanceAndOverride範例，我的體驗是，這個技巧是利用virtual的特性，並使用子類別來繼承父類別，由子類別來override virtual method，可以做到由繼承的子類別來決定父類別的實作，雖然父類別的method有做一些修正，但不影響現有邏輯。這個範例子類別 override virtual method是用來設定orders的來源物件，切換至測試案例內的dummy Orders，以及BookDao的實作，由NSub模擬的Mock物件。
 
 # HomeWork-DAY2
 
