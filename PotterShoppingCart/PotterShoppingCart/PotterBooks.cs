@@ -38,15 +38,40 @@ namespace PotterShoppingCart
 
         private decimal GetPrice(IEnumerable<Book> books)
         {
-            var discount = GetDiscount(books);
-            var totalPrice = books.Sum(item => item.Price);
-            return totalPrice * discount;
+            var groupingBooks = GetGroupingBooks(books);
+            var result = 0.0M;
+            foreach (var groupingBook in groupingBooks)
+            {
+                var count = groupingBook.Count();
+                var discount = GetDiscount(count);
+                var totalPrice = groupingBook.Sum(item => item.Price);
+                result += totalPrice * discount;
+            }
+            return result;
         }
 
-        private decimal GetDiscount(IEnumerable<Book> books)
+        private List<IEnumerable<Book>> GetGroupingBooks(IEnumerable<Book> books)
         {
-            var distinctBooks = books.Select(item => item.Id).Distinct();
-            var count = distinctBooks.Count();
+            List<IEnumerable<Book>> result = null;
+
+            var dulicapteBooks = books.GroupBy(item => item)
+                         .Where(item2 => item2.Count() > 1)
+                         .Select(item3 => item3.Key);
+
+            var distinceBooks = books.GroupBy(item => item)
+                              .Where(item2 => item2.Count() >= 1)
+                              .Select(item3 => item3.Key);
+
+            result = new List<IEnumerable<Book>>
+            {
+                dulicapteBooks,
+                distinceBooks
+            };
+            return result;
+        }
+
+        private decimal GetDiscount(int count)
+        {
             if (count == 2)
             {
                 return _twoDifferenceBooksDiscount;

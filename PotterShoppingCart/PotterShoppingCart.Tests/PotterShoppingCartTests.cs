@@ -39,7 +39,7 @@ namespace PotterShoppingCart.Tests
             ///Arrange
             var target = new PotterBooks();
             var books = _dummyBooks.Take(2);
-            decimal expected = (100 + 100) * 0.95M;
+            decimal expected = books.Sum(item => item.Price) * 0.95M;
             ///Act
             decimal actual = target.Calculate(books);
 
@@ -53,7 +53,7 @@ namespace PotterShoppingCart.Tests
             ///Arrange
             var target = new PotterBooks();
             var books = _dummyBooks.Take(3);
-            decimal expected = (100 + 100 + 100) * 0.90M;
+            decimal expected = books.Sum(item => item.Price) * 0.90M;
 
             ///Act
             decimal actual = target.Calculate(books);
@@ -68,7 +68,7 @@ namespace PotterShoppingCart.Tests
             ///Arrange
             var target = new PotterBooks();
             var books = _dummyBooks.Take(4);
-            decimal expected = (100 + 100 + 100 + 100) * 0.80M;
+            decimal expected = books.Sum(item => item.Price) * 0.80M;
 
             ///Act
             decimal actual = target.Calculate(books);
@@ -83,7 +83,7 @@ namespace PotterShoppingCart.Tests
             ///Arrange
             var target = new PotterBooks();
             var books = _dummyBooks.Take(5);
-            decimal expected = (100 + 100 + 100 + 100 + 100) * 0.75M;
+            decimal expected = books.Sum(item => item.Price) * 0.75M;
 
             ///Act
             decimal actual = target.Calculate(books);
@@ -98,10 +98,11 @@ namespace PotterShoppingCart.Tests
             ///Arrange
             var target = new PotterBooks();
             var books = _dummyBooks.Take(3).ToList();
-            var firstBook = _dummyBooks.FirstOrDefault(item => item.Id == 3);
+            var booksSum = books.Sum(item => item.Price);
+            var firstBook = _dummyBooks.First(item => item.Id == 3);
             books.Add(firstBook);
 
-            decimal expected = ((100 + 100 + 100) * 0.90M) + 100;
+            decimal expected = (booksSum * 0.90M) + firstBook.Price;
 
             ///Act
             decimal actual = target.Calculate(books);
