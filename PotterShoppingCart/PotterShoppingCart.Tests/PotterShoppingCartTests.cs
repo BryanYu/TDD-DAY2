@@ -11,132 +11,130 @@ namespace PotterShoppingCart.Tests
     [TestClass]
     public class PotterShoppingCartTests
     {
-        private decimal _defaultDiscount = 1.0M;
-        private decimal _twoDifferenceBooksDiscount = 0.95M;
-        private decimal _threeDifferenceBooksDiscount = 0.90M;
-        private decimal _fourDifferenceBooksDiscount = 0.80M;
-        private decimal _fiveDifferenceBooksDiscount = 0.75M;
-
-        private List<Book> _dummyBooks = new List<Book>
-        {
-            new Book {Id = 1 ,Name = "哈利波特第一集",Price = 100 },
-            new Book {Id = 2 ,Name = "哈利波特第二集",Price = 100 },
-            new Book {Id = 3 ,Name = "哈利波特第三集",Price = 100 },
-            new Book {Id = 4 ,Name = "哈利波特第四集",Price = 100 },
-            new Book {Id = 5 ,Name = "哈利波特第五集",Price = 100 }
-        };
+        private List<Book> _dummyBooks = new List<Book>();
 
         [TestMethod]
-        public void Test_Every_PotterBooks_Price_is_100()
+        public void 測試_只買第一集價錢為100()
         {
             ///Arrange
             var target = new PotterBooks();
-            var expected = _dummyBooks;
+            _dummyBooks.Add(new Book { Id = 1, Name = "哈利波特第一集", Price = 100 });
+            decimal expected = 100;
+
             ///Act
-            List<Book> actual = target.Get();
+            var actual = target.Calculate(this._dummyBooks);
 
             ///Assert
             expected.ToExpectedObject().ShouldEqual(actual);
         }
 
         [TestMethod]
-        public void Test_When_Buy_2_Difference_is_5_percent_discount()
+        public void 測試_買第一二集價錢為190()
         {
             ///Arrange
             var target = new PotterBooks();
-            var books = _dummyBooks.Take(2);
-            var booksSum = books.Sum(item => item.Price);
-            decimal expected = booksSum * _twoDifferenceBooksDiscount;
+            this._dummyBooks.Add(new Book { Id = 1, Name = "哈利波特第一集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 2, Name = "哈利波特第二集", Price = 100 });
+
+            decimal expected = 190;
             ///Act
-            decimal actual = target.Calculate(books);
+            decimal actual = target.Calculate(this._dummyBooks);
 
             ///Assert
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void Test_When_Buy_3_Difference_is_10_percent_discount()
+        public void 測試_買第一二三集價錢為270()
         {
             ///Arrange
             var target = new PotterBooks();
-            var books = _dummyBooks.Take(3);
-            var booksSum = books.Sum(item => item.Price);
-            decimal expected = booksSum * _threeDifferenceBooksDiscount;
+            this._dummyBooks.Add(new Book { Id = 1, Name = "哈利波特第一集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 2, Name = "哈利波特第二集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 3, Name = "哈利波特第三集", Price = 100 });
+
+            decimal expected = 270;
 
             ///Act
-            decimal actual = target.Calculate(books);
+            decimal actual = target.Calculate(this._dummyBooks);
 
             ///Assert
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void Test_When_Buy_4_Difference_is_20_percent_discount()
+        public void 測試_買第一二三四集價錢為320()
         {
             ///Arrange
             var target = new PotterBooks();
-            var books = _dummyBooks.Take(4);
-            var booksSum = books.Sum(item => item.Price);
-            decimal expected = booksSum * _fourDifferenceBooksDiscount;
+            this._dummyBooks.Add(new Book { Id = 1, Name = "哈利波特第一集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 2, Name = "哈利波特第二集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 3, Name = "哈利波特第三集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 4, Name = "哈利波特第四集", Price = 100 });
+
+            decimal expected = 320;
 
             ///Act
-            decimal actual = target.Calculate(books);
+            decimal actual = target.Calculate(this._dummyBooks);
 
             ///Assert
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void Test_When_Buy_5_Difference_is_25_percent_discount()
+        public void 測試_買第一二三四五集價錢為375()
         {
             ///Arrange
             var target = new PotterBooks();
-            var books = _dummyBooks.Take(5);
-            var booksSum = books.Sum(item => item.Price);
-            decimal expected = booksSum * _fiveDifferenceBooksDiscount;
+            this._dummyBooks.Add(new Book { Id = 1, Name = "哈利波特第一集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 2, Name = "哈利波特第二集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 3, Name = "哈利波特第三集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 4, Name = "哈利波特第四集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 5, Name = "哈利波特第五集", Price = 100 });
+
+            decimal expected = 375;
 
             ///Act
-            decimal actual = target.Calculate(books);
+            decimal actual = target.Calculate(this._dummyBooks);
 
             ///Assert
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void Test_When_Buy_4_But_3_Are_Difference_The_One_Are_Original_Price()
+        public void 測試_第一二集買一本_第三集買兩本_價錢為370()
         {
             ///Arrange
             var target = new PotterBooks();
-            var books = _dummyBooks.Take(3).ToList();
-            var booksSum = books.Sum(item => item.Price);
-            var firstBook = _dummyBooks.First(item => item.Id == 3);
-            books.Add(firstBook);
+            this._dummyBooks.Add(new Book { Id = 1, Name = "哈利波特第一集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 2, Name = "哈利波特第二集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 3, Name = "哈利波特第三集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 3, Name = "哈利波特第三集", Price = 100 });
 
-            decimal expected = (booksSum * _threeDifferenceBooksDiscount) + firstBook.Price;
+            decimal expected = 370;
 
             ///Act
-            decimal actual = target.Calculate(books);
+            decimal actual = target.Calculate(this._dummyBooks);
 
             ///Assert
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void Test_When_Buy_4_But_2_Pair_Same()
+        public void 測試_第一集買一本_第二三集買兩本_價錢為_460()
         {
             ///Arrange
             var target = new PotterBooks();
-            var books = _dummyBooks.Take(3).ToList();
-            var booksSum = books.Sum(item => item.Price);
-            var otherBooks = _dummyBooks.Where(item => item.Id >= 2 && item.Id <= 3);
-            var otherBooksSum = otherBooks.Sum(item => item.Price);
-            decimal expected =
-                (booksSum * _threeDifferenceBooksDiscount) +
-                (otherBooksSum * _twoDifferenceBooksDiscount);
-            books.AddRange(otherBooks);
+            this._dummyBooks.Add(new Book { Id = 1, Name = "哈利波特第一集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 2, Name = "哈利波特第二集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 2, Name = "哈利波特第二集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 3, Name = "哈利波特第三集", Price = 100 });
+            this._dummyBooks.Add(new Book { Id = 3, Name = "哈利波特第三集", Price = 100 });
+
+            var expected = 460;
 
             ///Actual
-            var actual = target.Calculate(books);
+            var actual = target.Calculate(this._dummyBooks);
 
             ///Assert
             Assert.AreEqual(expected, actual);
