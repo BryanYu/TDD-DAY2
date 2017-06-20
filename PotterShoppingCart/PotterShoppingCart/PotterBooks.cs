@@ -1,94 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Xml.Schema;
 using PotterShoppingCart.Model;
 
 namespace PotterShoppingCart
 {
     public class PotterBooks
     {
-        private decimal _defaultDiscount = 1.0M;
-        private decimal _twoDifferenceBooksDiscount = 0.95M;
-        private decimal _threeDifferenceBooksDiscount = 0.90M;
-        private decimal _fourDifferenceBooksDiscount = 0.80M;
-        private decimal _fiveDifferenceBooksDiscount = 0.75M;
+        private Dictionary<int, decimal> _discount;
 
         public PotterBooks()
         {
-        }
-
-        public List<Book> Get()
-        {
-            var result = new List<Book>
-            {
-            new Book {Id = 1 ,Name = "哈利波特第一集",Price = 100 },
-            new Book {Id = 2 ,Name = "哈利波特第二集",Price = 100 },
-            new Book {Id = 3 ,Name = "哈利波特第三集",Price = 100 },
-            new Book {Id = 4 ,Name = "哈利波特第四集",Price = 100 },
-            new Book {Id = 5 ,Name = "哈利波特第五集",Price = 100 }
-            };
-            return result;
+            this._discount = new Dictionary<int, decimal>
+                             {
+                                 { 0, 0.0M },
+                                 { 1, 1.0M },
+                                 { 2, 0.95M },
+                                 { 3, 0.90M },
+                                 { 4, 0.80M },
+                                 { 5, 0.75M }
+                             };
         }
 
         public decimal Calculate(IEnumerable<Book> books)
         {
-            var result = GetPrice(books);
-            return result;
-        }
+            var duplicateBooks = books.GroupBy(item => item.Id).Where(item2 => item2.Count() > 1)
+                .Select(item3 => item3.First());
+            var distinctBooks = books.Select(item => new { Id = item.Id, Price = item.Price })
+                                 .Distinct();
 
-        private decimal GetPrice(IEnumerable<Book> books)
-        {
-            var groupingBooks = GetGroupingBooks(books);
-            var result = 0.0M;
-            foreach (var groupingBook in groupingBooks)
-            {
-                var count = groupingBook.Count();
-                var discount = GetDiscount(count);
-                var totalPrice = groupingBook.Sum(item => item.Price);
-                result += totalPrice * discount;
-            }
-            return result;
-        }
+            var dulicateDiscount = this._discount[duplicateBooks.Count()];
+            var distinctDiscount = this._discount[distinctBooks.Count()];
 
-        private List<IEnumerable<Book>> GetGroupingBooks(IEnumerable<Book> books)
-        {
-            List<IEnumerable<Book>> result = null;
+            var duplicateTotalPrice = dulicateDiscount * duplicateBooks.Sum(item => item.Price);
+            var distinctTotalPrice = distinctDiscount * distinctBooks.Sum(item => item.Price);
 
-            var dulicapteBooks = books.GroupBy(item => item)
-                         .Where(item2 => item2.Count() > 1)
-                         .Select(item3 => item3.Key);
-
-            var distinceBooks = books.GroupBy(item => item)
-                              .Where(item2 => item2.Count() >= 1)
-                              .Select(item3 => item3.Key);
-
-            result = new List<IEnumerable<Book>>
-            {
-                dulicapteBooks,
-                distinceBooks
-            };
-            return result;
-        }
-
-        private decimal GetDiscount(int count)
-        {
-            if (count == 2)
-            {
-                return _twoDifferenceBooksDiscount;
-            }
-            else if (count == 3)
-            {
-                return _threeDifferenceBooksDiscount;
-            }
-            else if (count == 4)
-            {
-                return _fourDifferenceBooksDiscount;
-            }
-            else if (count == 5)
-            {
-                return _fiveDifferenceBooksDiscount;
-            }
-            return _defaultDiscount;
+            return duplicateTotalPrice + distinctTotalPrice;
         }
     }
 }
